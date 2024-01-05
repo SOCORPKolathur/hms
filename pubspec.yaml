@@ -35,8 +35,39 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  google_fonts: ^6.1.0
+  google_fonts: ^4.0.4
   firebase_core: ^2.24.2
+  cloud_firestore: ^4.9.3
+  firebase_storage: ^11.2.8
+  intl: ^0.18.1
+  action_slider: ^0.7.0
+  flutter_local_notifications: ^13.0.0
+  firebase_messaging: ^14.2.4
+  http: any
+  lottie: ^2.3.2
+  firebase_auth: ^4.12.1
+  mrx_charts: ^0.1.3
+  fl_chart: ^0.64.0
+  syncfusion_flutter_charts: ^23.1.43
+  cr_calendar: ^1.2.1
+  clean_calendar: ^1.1.0
+  sidebarx: ^0.11.0
+  scaffold_gradient_background: ^1.0.3+1
+  scrollable_clean_calendar: ^1.4.1
+  dropdown_button2: ^2.1.3
+  dropdown_search: ^5.0.3
+  google_translator: any
+  flutter_translate: ^4.0.4
+  flutter_localization: ^0.2.0
+  translator: any
+  country_flags: ^2.1.0
+  show_up_animation: ^2.0.0
+  flutter_svg: ^2.0.9
+  email_validator: ^2.1.17
+  country_state_city_picker: ^1.2.8
+  flutter_calendar_carousel: ^2.4.2
+
+
 
 
 dev_dependencies:
@@ -113,6 +144,7 @@ flutter:
     - assets/page-1/images/ellipse-241.png
     - assets/page-1/images/subtract-m4y.png
     - assets/
+    - assets/i18n/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

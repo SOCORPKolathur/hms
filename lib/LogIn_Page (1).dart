@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hms/firstpage.dart';
 import 'package:hms/utils.dart';
 
@@ -15,7 +14,6 @@ class Login_Page extends StatefulWidget {
 class _Login_PageState extends State<Login_Page> {
 
   bool _showpassword=true;
-  bool _success=false;
   TextEditingController emailController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
 
@@ -26,13 +24,13 @@ class _Login_PageState extends State<Login_Page> {
     double ffem = fem * 0.97;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           child: Container(
             // signupfVK (10:90)
             padding: EdgeInsets.fromLTRB(0*fem, 0*fem, 169.2*fem, 0*fem),
             width: double.infinity,
-            decoration: BoxDecoration (
+            decoration: const BoxDecoration (
               color: Color(0xfffafafa),
             ),
             child: Row(
@@ -44,7 +42,7 @@ class _Login_PageState extends State<Login_Page> {
                   padding: EdgeInsets.fromLTRB(57*fem, 20*fem, 57.77*fem, 0),
                   width: 523.15*fem,
                   height: 1000.52*fem,
-                  decoration: BoxDecoration (
+                  decoration: const BoxDecoration (
                     color: Color(0xffffffff),
                   ),
                   child: Column(
@@ -54,7 +52,7 @@ class _Login_PageState extends State<Login_Page> {
                         // logoLjs (10:936)
                         margin: EdgeInsets.fromLTRB(150.86*fem, 0*fem, 150.08*fem, 17.97*fem),
                         width: double.infinity,
-                        decoration: BoxDecoration (
+                        decoration: const BoxDecoration (
                           image: DecorationImage (
                             fit: BoxFit.cover,
                             image: AssetImage (
@@ -88,7 +86,7 @@ class _Login_PageState extends State<Login_Page> {
                             fontSize: 30*ffem,
                             fontWeight: FontWeight.w600,
                             height: 1.5*ffem/fem,
-                            color: Color(0xff151D48),
+                            color: const Color(0xff151D48),
                           ),
                         ),
                       ),
@@ -106,7 +104,7 @@ class _Login_PageState extends State<Login_Page> {
                               padding: EdgeInsets.fromLTRB(30.61*fem, 17.5*fem, 57.77*fem, 16.35*fem),
                               height: double.infinity,
                               decoration: BoxDecoration (
-                                color: Color(0xfff7f7f8),
+                                color: const Color(0xfff7f7f8),
                                 borderRadius: BorderRadius.circular(10*fem),
                               ),
                               child: Row(
@@ -133,7 +131,7 @@ class _Login_PageState extends State<Login_Page> {
                                         fontSize: 16*ffem,
                                         fontWeight: FontWeight.w400,
                                         height: 1.3625*ffem/fem,
-                                        color: Color(0xff030229),
+                                        color: const Color(0xff030229),
                                       ),
                                     ),
                                   ),
@@ -145,7 +143,7 @@ class _Login_PageState extends State<Login_Page> {
                               padding: EdgeInsets.fromLTRB(36.41*fem, 17.5*fem, 55.78*fem, 16.35*fem),
                               height: double.infinity,
                               decoration: BoxDecoration (
-                                color: Color(0xfff7f7f8),
+                                color: const Color(0xfff7f7f8),
                                 borderRadius: BorderRadius.circular(10*fem),
                               ),
                               child: Row(
@@ -172,7 +170,7 @@ class _Login_PageState extends State<Login_Page> {
                                         fontSize: 16*ffem,
                                         fontWeight: FontWeight.w400,
                                         height: 1.3625*ffem/fem,
-                                        color: Color(0xff030229),
+                                        color: const Color(0xff030229),
                                       ),
                                     ),
                                   ),
@@ -204,7 +202,7 @@ class _Login_PageState extends State<Login_Page> {
                                       fontSize: 16*ffem,
                                       fontWeight: FontWeight.w600,
                                       height: 1.3625*ffem/fem,
-                                      color: Color(0xff030229),
+                                      color: const Color(0xff030229),
                                     ),
                                   ),
                                 ),
@@ -214,7 +212,7 @@ class _Login_PageState extends State<Login_Page> {
                               // line75j (10:907)
                               left: 0*fem,
                               top: 12.8450927734*fem,
-                              child: Container(
+                              child: SizedBox(
                                 width: 406.37*fem,
                                 height: 1*fem,
                               ),
@@ -242,7 +240,7 @@ class _Login_PageState extends State<Login_Page> {
                                   fontSize: 18*ffem,
                                   fontWeight: FontWeight.w400,
                                   height: 1.3625*ffem/fem,
-                                  color: Color(0xff030229),
+                                  color: const Color(0xff030229),
                                 ),
                               ),
                             ),
@@ -252,12 +250,12 @@ class _Login_PageState extends State<Login_Page> {
                               width: 270,
                               height: 40,
                               decoration: BoxDecoration (
-                                color: Color(0xfff7f7f8),
+                                color: const Color(0xfff7f7f8),
                                 borderRadius: BorderRadius.circular(10*fem),
                               ),
                               child: TextField(
                                 controller: emailController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     contentPadding: EdgeInsets.only(bottom: 20)
                                 ),
@@ -266,7 +264,7 @@ class _Login_PageState extends State<Login_Page> {
                                   fontSize: 16*ffem,
                                   fontWeight: FontWeight.w400,
                                   height: 1.3625*ffem/fem,
-                                  color: Color(0xff030229),
+                                  color: const Color(0xff030229),
 
                                 ),
                               ),
@@ -291,7 +289,7 @@ class _Login_PageState extends State<Login_Page> {
                                   fontSize: 18*ffem,
                                   fontWeight: FontWeight.w400,
                                   height: 1.3625*ffem/fem,
-                                  color: Color(0xff030229),
+                                  color: const Color(0xff030229),
                                 ),
                               ),
                             ),
@@ -301,7 +299,7 @@ class _Login_PageState extends State<Login_Page> {
                               width: 270,
                               height: 40,
                               decoration: BoxDecoration (
-                                color: Color(0xfff7f7f8),
+                                color: const Color(0xfff7f7f8),
                                 borderRadius: BorderRadius.circular(10*fem),
                               ),
                               child: TextField(
@@ -309,7 +307,7 @@ class _Login_PageState extends State<Login_Page> {
                                 obscureText: _showpassword,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(bottom: 20),
+                                    contentPadding: const EdgeInsets.only(bottom: 20),
                                     suffixIcon: InkWell(
 
                                         onTap:(){
@@ -317,14 +315,14 @@ class _Login_PageState extends State<Login_Page> {
                                             _showpassword=!_showpassword;
                                           });
                                         },
-                                        child: Icon(Icons.remove_red_eye,size: 22,color:Color(0xff030229)))
+                                        child: const Icon(Icons.remove_red_eye,size: 22,color:Color(0xff030229)))
                                 ),
                                 style: SafeGoogleFont (
                                   'Nunito',
                                   fontSize: 16*ffem,
                                   fontWeight: FontWeight.w400,
                                   height: 1.3625*ffem/fem,
-                                  color: Color(0xff030229),
+                                  color: const Color(0xff030229),
 
                                 ),
                                 onSubmitted: (value){
@@ -362,7 +360,7 @@ class _Login_PageState extends State<Login_Page> {
                                   child: Container(
                                     decoration: BoxDecoration (
                                       borderRadius: BorderRadius.circular(2*fem),
-                                      border: Border.all(color: Color(0x7f030229)),
+                                      border: Border.all(color: const Color(0x7f030229)),
                                     ),
                                   ),
                                 ),
@@ -380,7 +378,7 @@ class _Login_PageState extends State<Login_Page> {
                                     fontSize: 18*ffem,
                                     fontWeight: FontWeight.w400,
                                     height: 1.171875*ffem/fem,
-                                    color: Color(0xff030229),
+                                    color: const Color(0xff030229),
                                   ),
                                   children: [
                                     TextSpan(
@@ -390,7 +388,7 @@ class _Login_PageState extends State<Login_Page> {
                                         fontSize: 18*ffem,
                                         fontWeight: FontWeight.w400,
                                         height: 1.3625*ffem/fem,
-                                        color: Color(0xff030229),
+                                        color: const Color(0xff030229),
                                       ),
                                     ),
                                     TextSpan(
@@ -401,8 +399,8 @@ class _Login_PageState extends State<Login_Page> {
                                         fontWeight: FontWeight.w400,
                                         height: 1.3625*ffem/fem,
                                         decoration: TextDecoration.underline,
-                                        color: Color(0xff605bff),
-                                        decorationColor: Color(0xff605bff),
+                                        color: const Color(0xff605bff),
+                                        decorationColor: const Color(0xff605bff),
                                       ),
                                     ),
                                     TextSpan(
@@ -412,7 +410,7 @@ class _Login_PageState extends State<Login_Page> {
                                         fontSize: 18*ffem,
                                         fontWeight: FontWeight.w400,
                                         height: 1.3625*ffem/fem,
-                                        color: Color(0xff030229),
+                                        color: const Color(0xff030229),
                                       ),
                                     ),
                                     TextSpan(
@@ -422,7 +420,7 @@ class _Login_PageState extends State<Login_Page> {
                                         fontSize: 18*ffem,
                                         fontWeight: FontWeight.w400,
                                         height: 1.3625*ffem/fem,
-                                        color: Color(0xff030229),
+                                        color: const Color(0xff030229),
                                       ),
                                     ),
                                     TextSpan(
@@ -433,8 +431,8 @@ class _Login_PageState extends State<Login_Page> {
                                         fontWeight: FontWeight.w400,
                                         height: 1.3625*ffem/fem,
                                         decoration: TextDecoration.underline,
-                                        color: Color(0xff605bff),
-                                        decorationColor: Color(0xff605bff),
+                                        color: const Color(0xff605bff),
+                                        decorationColor: const Color(0xff605bff),
                                       ),
                                     ),
                                   ],
@@ -449,7 +447,7 @@ class _Login_PageState extends State<Login_Page> {
                         margin: EdgeInsets.fromLTRB(2*fem, 0*fem, 0*fem, 35.03*fem),
                         child: TextButton(
                           onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>FirstPage()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const FirstPage()));
 
                           },
                           style: TextButton.styleFrom (
@@ -459,7 +457,7 @@ class _Login_PageState extends State<Login_Page> {
                             width: 406.37*fem,
                             height: 58.39*fem,
                             decoration: BoxDecoration (
-                              color: Color(0xff605bff),
+                              color: const Color(0xff605bff),
                               borderRadius: BorderRadius.circular(10*fem),
                             ),
                             child: Center(
@@ -470,7 +468,7 @@ class _Login_PageState extends State<Login_Page> {
                                   fontSize: 18*ffem,
                                   fontWeight: FontWeight.w600,
                                   height: 1.3625*ffem/fem,
-                                  color: Color(0xffffffff),
+                                  color: const Color(0xffffffff),
                                 ),
                               ),
                             ),
@@ -487,10 +485,10 @@ class _Login_PageState extends State<Login_Page> {
                               fontSize: 16*ffem,
                               fontWeight: FontWeight.w400,
                               height: 1.3625*ffem/fem,
-                              color: Color(0xff030229),
+                              color: const Color(0xff030229),
                             ),
                             children: [
-                              TextSpan(
+                              const TextSpan(
                                 text: 'Don’t have an account? ',
                               ),
                               TextSpan(
@@ -500,7 +498,7 @@ class _Login_PageState extends State<Login_Page> {
                                   fontSize: 16*ffem,
                                   fontWeight: FontWeight.w400,
                                   height: 1.3625*ffem/fem,
-                                  color: Color(0xff605bff),
+                                  color: const Color(0xff605bff),
                                 ),
                               ),
                             ],
@@ -552,13 +550,13 @@ class _Login_PageState extends State<Login_Page> {
         ),
         child: Row(
           children: [
-            Icon(Icons.info_outline, color: Colors.black),
+            const Icon(Icons.info_outline, color: Colors.black),
             const Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text('Invalid Credentials !!', style: TextStyle(color: Colors.black)),
             ),
             const Spacer(),
-            TextButton(onPressed: () => debugPrint("Undid"), child: Text("Undo"))
+            TextButton(onPressed: () => debugPrint("Undid"), child: const Text("Undo"))
           ],
         )
     ),
