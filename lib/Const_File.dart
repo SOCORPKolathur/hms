@@ -1,3 +1,5 @@
+import 'dart:convert';
+import "package:http/http.dart" as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +12,7 @@ String Loginpageimg='assets/happycaretakersloginimg.png';
 String Googleimg="assets/logo-5Ud.png";
 String Fbimg="assets/logo-EjT.png";
 String Hostelers="assets/Joob Seeker.png";
+
 
 double TextSizeextraSmall=12;
 double TextSizeSmall=14;
@@ -27,7 +30,10 @@ Color  ShippedColor=const Color(0xffC49D50);
 Color  DeliveryedColor=const Color(0xff73FFCC);
 Color  DeliverypendingColor=const Color(0xff6F82E8);
 double cardCounterTextSize=40;
-
+Color BuildingsCardColor = const Color(0xff0BF4C8);
+Color RoomsCard =const Color(0xffFAD85D);
+Color AllocatedBedCardColor=const Color(0xffF2A0FF);
+Color HostlersCardColor =const Color(0xffC49D50);
 String LogoImg="assets/page-1/images/frame-D25.png";
 
 
@@ -36,10 +42,10 @@ Color  HostelTextColor=const Color(0xff2D3036);
 Color  UsersearchConColor=const Color(0xffF4F6F8);
 Color  ContainerColor=const Color(0xff0000000);
 Color  ListedContainerColor=const Color(0xff7F69DC);
-Color  InRoomrColor=const Color(0xff316B6E);
-Color  OutRoomrColor=const Color(0xff832525);
+Color  InRoomColor=const Color(0xff316B6E);
+Color  OutRoomColor=const Color(0xff832525);
 Color  OutRoomContainerColor=const Color(0xffFDECEC);
-Color  InRoomContainerColor=const Color(0xff832525);
+Color  InRoomContainerColor=const Color(0xffEEF9FA);
 Color  UsersTextColor=Colors.grey.shade600;
 
 String SuccesDataSvg="assets/Success Users.svg";
@@ -77,6 +83,15 @@ Color DTDataColor=const Color(0xff2D3036);
 String overflowYes="Yes";
 String overflowNO="NO";
 
+
+/// message Screen Properties
+
+String  chatImg="assets/Chats img.json";
+String  LoadingLottieFile="assets/Loading.json";
+String  paperclipImg="assets/paperclip.png";
+String  SendIconImg="assets/send icon.png";
+Color MeaasgeContainerColor=Color(0xff000000);
+
 /// Todo And more Container color and Properties
 Color TodoTextColor=const Color(0xff2D3036);
 
@@ -98,7 +113,32 @@ Color TodoTextColor=const Color(0xff2D3036);
       ):const TextStyle()
 
     );
+}
 
+ sendPushMessage({required String token, required String body, required String title}) async {
+  try {
+    await http.post(
+      Uri.parse('https://fcm.googleapis.com/fcm/send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization':
+        'key=AAAABU3ypzU:APA91bGgVmIXhWdfXhXZIuFg9S6JNVkaKqnzb4DwVRmzmmlM4erYBa1goSNZolsGK9zVNRIiSTsoTVZQCGwSQbWDwRizi22c6bwYMkSIriuJF-rmjGgvjIQ0NnBjrIh0q6ghbIkOmYmz',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{'body': body, 'title': title},
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'id': '1',
+            'status': 'done'
+          },
+          "to": token,
+        },
+      ),
+    );
 
-
+  } catch (e) {
+    print("error push notification");
+  }
 }

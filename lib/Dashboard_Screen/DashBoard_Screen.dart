@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cr_calendar/cr_calendar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hms/Dashboard_Screen/widgets/card_clipper.dart';
+import 'package:hms/Dashboard_Screen/widgets/dashboard_card.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import '../Barchart(DashBoard)/Barchat_dashBoard.dart';
@@ -32,14 +34,22 @@ class _DashBoard_ScrenState extends State<DashBoard_Scren> {
   String Useremail="";
 
   int hostellerCount=0;
+  int buildingCount=0;
+  int roomCount=0;
 
   fetchdata()async{
     setState(() {
       hostellerCount=0;
+      buildingCount=0;
+      roomCount=0;
     });
     var HostelCopunt =await FirebaseFirestore.instance.collection("HostelUsers").get();
+    var RoomsCount =await FirebaseFirestore.instance.collection("Rooms").get();
+    var BuldingCount =await FirebaseFirestore.instance.collection("Building").get();
     setState(() {
       hostellerCount=HostelCopunt.docs.length;
+      roomCount=RoomsCount.docs.length;
+      buildingCount=BuldingCount.docs.length;
     });
 
   }
@@ -81,7 +91,7 @@ class _DashBoard_ScrenState extends State<DashBoard_Scren> {
 
                     children: [
 
-                      ///serach textfield
+                  /*    ///serach textfield
                       Card(
                         elevation: 2,
                         color: const Color(0xffFFFFFF),
@@ -108,9 +118,9 @@ class _DashBoard_ScrenState extends State<DashBoard_Scren> {
                             ),
                           ),
                         ),
-                      ),
+                      ),*/
 
-                      const SizedBox(width: 560,),
+                      const SizedBox(width: 870,),
                       SizedBox(
                         height:60,
                         width:240,
@@ -159,7 +169,7 @@ class _DashBoard_ScrenState extends State<DashBoard_Scren> {
                     width: 20,
                   ),
                   Text(
-                    "Hello ${widget.name}",
+                    "Hello ${"Admin"}",
                     style:
                     textStyle(TextColor: HeadingTextColor,TextSize: TextSizeLarge,fontWeight: fontWeightmediumextra)
                   ),
@@ -171,382 +181,32 @@ class _DashBoard_ScrenState extends State<DashBoard_Scren> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
 
-                  Stack(
-                    children: [
 
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Card(
-                          elevation: 10,
-                          color: const Color(0xff0BF4C8),
-                          shape: BeveledRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Container(
-                            height: 130,
-                            width: 260,
-                            decoration: BoxDecoration(
-                                color: const Color(0xff0BF4C8),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  SizedBox(
-                                    width: 230,
-                                    height:100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Buildings",
-                                          style:
-                                         textStyle(
-                                           TextColor: HeadingTextColor,
-                                           TextSize: TextSizeSmall,
-                                           fontWeight: fontWeightmediumextra
-                                         ),
-                                        ),
-                                        Text(
-                                          "04",
-                                          style:
-                                          textStyle(
-                                              TextColor: HeadingTextColor,
-                                              TextSize: cardCounterTextSize,
-                                              fontWeight: fontWeightmediumextra
-                                          ),
-                                        ),
-                                        InkWell(
-
-                                          onTap: (){},
-                                          child: Text(
-                                            "View Entire List",
-                                            style:   textStyle(
-                                                TextColor: HeadingTextColor,
-                                                TextSize: TextSizeextraSmall,
-                                                fontWeight: fontWeightmediumextra
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 160),
-                        child: SizedBox(
-                          width: 100,
-                          child: Image.asset(
-                            Hostelimg,
-                            height: 150,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10,),
-                        child: SizedBox(
-                          width: 250,
-                          child: Image.asset(
-                            Groupimg,
-                            height: 180,
-                            width: 200,
-                          ),
-                        ),
-                      ),
-                    ],
+                  ClipPath(
+                    clipper: CardClipper(drawLeftArc: false,drawRightArc: true),
+                    child: Container(
+                      child: DashboardCard(count:buildingCount ,cardHeading: 'Buildings',cardImage: Hostelimg,cardColor:BuildingsCardColor,onPressed: (){},),
+                    ),
+                  ),
+                  ClipPath(
+                    clipper: CardClipper(drawLeftArc: false,drawRightArc: true),
+                    child: Container(
+                      child: DashboardCard(count:buildingCount ,cardHeading: 'Rooms',cardImage: LivingRoomimg,cardColor:RoomsCard,onPressed: (){},),
+                    ),
+                  ),
+                  ClipPath(
+                    clipper: CardClipper(drawLeftArc: false,drawRightArc: true),
+                    child: Container(
+                      child: DashboardCard(count:buildingCount ,cardHeading: 'Allocated Beds',cardImage: Bedtimg,cardColor:AllocatedBedCardColor,onPressed: (){},),
+                    ),
+                  ),
+                  ClipPath(
+                    clipper: CardClipper(drawLeftArc: false,drawRightArc: true),
+                    child: Container(
+                      child: DashboardCard(count:buildingCount ,cardHeading: 'hostelers',cardImage: Hostelers,cardColor:HostlersCardColor,onPressed: (){},),
+                    ),
                   ),
 
-                  Stack(
-                    children: [
-
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Card(
-                          elevation: 10,
-                          color: const Color(0xffFAD85D),
-                          shape: BeveledRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Container(
-                            height: 130,
-                            width: 260,
-                            decoration: BoxDecoration(
-                                color: const Color(0xffFAD85D),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  SizedBox(
-                                    width: 230,
-                                    height:100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Rooms",
-                                          style:
-                                          textStyle(
-                                              TextColor: HeadingTextColor,
-                                              TextSize: TextSizeSmall,
-                                              fontWeight: fontWeightmediumextra
-                                          ),
-                                        ),
-                                        Text(
-                                          "04",
-                                          style:
-                                          textStyle(
-                                              TextColor: HeadingTextColor,
-                                              TextSize: cardCounterTextSize,
-                                              fontWeight: fontWeightmediumextra
-                                          ),
-                                        ),
-                                        InkWell(
-
-                                          onTap: (){},
-                                          child: Text(
-                                            "View Entire List",
-                                            style:   textStyle(
-                                                TextColor: HeadingTextColor,
-                                                TextSize: TextSizeextraSmall,
-                                                fontWeight: fontWeightmediumextra
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 160),
-                        child: SizedBox(
-                          width: 100,
-                          child: Image.asset(
-                            LivingRoomimg,
-                            height: 150,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10,),
-                        child: SizedBox(
-                          width: 250,
-                          child: Image.asset(
-                            Groupimg,
-                            height: 180,
-                            width: 200,
-                          ),
-                        ),
-                      ),
-
-                    ],
-                  ),
-
-                  Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Card(
-                          elevation: 10,
-                          color: const Color(0xffF2A0FF),
-                          shape: BeveledRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Container(
-                            height: 130,
-                            width: 260,
-                            decoration: BoxDecoration(
-                                color: const Color(0xffF2A0FF),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  SizedBox(
-                                    width: 230,
-                                    height:100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Allocated Beds",
-                                          style:
-                                          textStyle(
-                                              TextColor: HeadingTextColor,
-                                              TextSize: TextSizeSmall,
-                                              fontWeight: fontWeightmediumextra
-                                          ),
-                                        ),
-                                        Text(
-                                          "04",
-                                          style:
-                                          textStyle(
-                                              TextColor: HeadingTextColor,
-                                              TextSize: cardCounterTextSize,
-                                              fontWeight: fontWeightmediumextra
-                                          ),
-                                        ),
-                                        InkWell(
-
-                                          onTap: (){},
-                                          child: Text(
-                                            "View Entire List",
-                                            style:   textStyle(
-                                                TextColor: HeadingTextColor,
-                                                TextSize: TextSizeextraSmall,
-                                                fontWeight: fontWeightmediumextra
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          right: 15,
-                        ),
-                        child: SizedBox(
-                          width: 100,
-                          child: Image.asset(
-                            Bedtimg,
-                            height: 150,
-                            width: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10,),
-                        child: SizedBox(
-                          width: 250,
-                          child: Image.asset(
-                            Groupimg,
-                            height: 180,
-                            width: 200,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-
-
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Card(
-                          elevation: 10,
-                          color: const Color(0xffF2A0FF),
-                          shape: BeveledRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Container(
-                            height: 130,
-                            width: 260,
-                            decoration: BoxDecoration(
-                                color: const Color(0xffA0E8FF),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  SizedBox(
-                                    width: 230,
-                                    height:100,
-
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Hostelers",
-                                          style:
-                                          textStyle(
-                                              TextColor: HeadingTextColor,
-                                              TextSize: TextSizeSmall,
-                                              fontWeight: fontWeightmediumextra
-                                          ),
-                                        ),
-                                        Text(
-                                          hostellerCount.toString(),
-                                          style:
-                                          textStyle(
-                                              TextColor: HeadingTextColor,
-                                              TextSize: cardCounterTextSize,
-                                              fontWeight: fontWeightmediumextra
-                                          ),
-                                        ),
-                                        InkWell(
-
-                                          onTap: (){},
-                                          child: Text(
-                                            "View Entire List",
-                                            style:   textStyle(
-                                                TextColor: HeadingTextColor,
-                                                TextSize: TextSizeextraSmall,
-                                                fontWeight: fontWeightmediumextra
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding:  const EdgeInsets.only(right:20),
-                        child: Image.asset(
-                          Hostelers,
-                          height: 150,
-                          width: 150,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10,),
-                        child: SizedBox(
-                          width: 250,
-                          child: Image.asset(
-                            Groupimg,
-                            height: 180,
-                            width: 200,
-                          ),
-                        ),
-                      ),
-
-                    ],
-                  ),
                 ],
               ),
               const SizedBox(
@@ -617,9 +277,12 @@ class _DashBoard_ScrenState extends State<DashBoard_Scren> {
                                 width: 580,
                                 height: 250,
                                 child: SfCartesianChart(
-                                    primaryXAxis: CategoryAxis(),
+                                    primaryXAxis: CategoryAxis(
+
+                                    ),
                                     // Chart title
                                     title: ChartTitle(text: ''),
+
                                     // Enable legend
                                     legend: const Legend(isVisible: true),
                                     // Enable tooltip
@@ -810,7 +473,7 @@ class _DashBoard_ScrenState extends State<DashBoard_Scren> {
                             ),
                             ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: 5,
+                              itemCount: 3,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return   Container(
@@ -878,9 +541,296 @@ class _DashBoard_ScrenState extends State<DashBoard_Scren> {
   }
 }
 
+
+
 class _SalesData {
   _SalesData(this.year, this.sales);
 
   final String year;
   final double sales;
 }
+
+// Stack(
+// children: [
+//
+// Padding(
+// padding: const EdgeInsets.only(top: 15),
+// child: Card(
+// elevation: 10,
+// color: const Color(0xffFAD85D),
+// shape: BeveledRectangleBorder(
+// borderRadius: BorderRadius.circular(15),
+// ),
+// child: Container(
+// height: 130,
+// width: 260,
+// decoration: BoxDecoration(
+// color: const Color(0xffFAD85D),
+// borderRadius: BorderRadius.circular(15)),
+// child: Padding(
+// padding: const EdgeInsets.all(8.0),
+// child: Row(
+// mainAxisAlignment: MainAxisAlignment.spaceAround,
+// children: [
+// SizedBox(
+// width: 230,
+// height:100,
+// child: Column(
+// crossAxisAlignment:
+// CrossAxisAlignment.start,
+// children: [
+// Text(
+// "Rooms",
+// style:
+// textStyle(
+// TextColor: HeadingTextColor,
+// TextSize: TextSizeSmall,
+// fontWeight: fontWeightmediumextra
+// ),
+// ),
+// Text(
+// roomCount.toString(),
+// style:
+// textStyle(
+// TextColor: HeadingTextColor,
+// TextSize: cardCounterTextSize,
+// fontWeight: fontWeightmediumextra
+// ),
+// ),
+// InkWell(
+//
+// onTap: (){},
+// child: Text(
+// "View Entire List",
+// style:   textStyle(
+// TextColor: HeadingTextColor,
+// TextSize: TextSizeextraSmall,
+// fontWeight: fontWeightmediumextra
+// ),
+// ),
+// ),
+// ],
+// ),
+// ),
+// ],
+// ),
+// ),
+// ),
+// ),
+// ),
+// Padding(
+// padding: const EdgeInsets.only(left: 160),
+// child: SizedBox(
+// width: 100,
+// child: Image.asset(
+// LivingRoomimg,
+// height: 150,
+// ),
+// ),
+// ),
+// Padding(
+// padding: const EdgeInsets.only(left: 10,),
+// child: SizedBox(
+// width: 250,
+// child: Image.asset(
+// Groupimg,
+// height: 180,
+// width: 200,
+// ),
+// ),
+// ),
+//
+// ],
+// ),
+//
+// Stack(
+// alignment: Alignment.topRight,
+// children: [
+//
+// Padding(
+// padding: const EdgeInsets.only(top: 15),
+// child: Card(
+// elevation: 10,
+// color: const Color(0xffF2A0FF),
+// shape: BeveledRectangleBorder(
+// borderRadius: BorderRadius.circular(15),
+// ),
+// child: Container(
+// height: 130,
+// width: 260,
+// decoration: BoxDecoration(
+// color: const Color(0xffF2A0FF),
+// borderRadius: BorderRadius.circular(15)),
+// child: Padding(
+// padding: const EdgeInsets.all(8.0),
+// child: Row(
+// mainAxisAlignment: MainAxisAlignment.spaceAround,
+// children: [
+// SizedBox(
+// width: 230,
+// height:100,
+// child: Column(
+// crossAxisAlignment:
+// CrossAxisAlignment.start,
+// children: [
+// Text(
+// "Allocated Beds",
+// style:
+// textStyle(
+// TextColor: HeadingTextColor,
+// TextSize: TextSizeSmall,
+// fontWeight: fontWeightmediumextra
+// ),
+// ),
+// Text(
+// "04",
+// style:
+// textStyle(
+// TextColor: HeadingTextColor,
+// TextSize: cardCounterTextSize,
+// fontWeight: fontWeightmediumextra
+// ),
+// ),
+// InkWell(
+//
+// onTap: (){},
+// child: Text(
+// "View Entire List",
+// style:   textStyle(
+// TextColor: HeadingTextColor,
+// TextSize: TextSizeextraSmall,
+// fontWeight: fontWeightmediumextra
+// ),
+// ),
+// ),
+// ],
+// ),
+// ),
+// ],
+// ),
+// ),
+// ),
+// ),
+// ),
+// Padding(
+// padding: const EdgeInsets.only(
+// right: 15,
+// ),
+// child: SizedBox(
+// width: 100,
+// child: Image.asset(
+// Bedtimg,
+// height: 150,
+// width: 100,
+// fit: BoxFit.cover,
+// ),
+// ),
+// ),
+// Padding(
+// padding: const EdgeInsets.only(left: 10,),
+// child: SizedBox(
+// width: 250,
+// child: Image.asset(
+// Groupimg,
+// height: 180,
+// width: 200,
+// ),
+// ),
+// ),
+// ],
+// ),
+//
+// Stack(
+// alignment: Alignment.topRight,
+// children: [
+//
+//
+// Padding(
+// padding: const EdgeInsets.only(top: 15),
+// child: Card(
+// elevation: 10,
+// color: const Color(0xffF2A0FF),
+// shape: BeveledRectangleBorder(
+// borderRadius: BorderRadius.circular(15),
+// ),
+// child: Container(
+// height: 130,
+// width: 260,
+// decoration: BoxDecoration(
+// color: const Color(0xffA0E8FF),
+// borderRadius: BorderRadius.circular(15)),
+// child: Padding(
+// padding: const EdgeInsets.all(8.0),
+// child: Row(
+// mainAxisAlignment: MainAxisAlignment.spaceAround,
+// children: [
+// SizedBox(
+// width: 230,
+// height:100,
+//
+// child: Column(
+// crossAxisAlignment:
+// CrossAxisAlignment.start,
+// children: [
+// Text(
+// "Hostelers",
+// style:
+// textStyle(
+// TextColor: HeadingTextColor,
+// TextSize: TextSizeSmall,
+// fontWeight: fontWeightmediumextra
+// ),
+// ),
+// Text(
+// hostellerCount.toString(),
+// style:
+// textStyle(
+// TextColor: HeadingTextColor,
+// TextSize: cardCounterTextSize,
+// fontWeight: fontWeightmediumextra
+// ),
+// ),
+// InkWell(
+//
+// onTap: (){},
+// child: Text(
+// "View Entire List",
+// style:   textStyle(
+// TextColor: HeadingTextColor,
+// TextSize: TextSizeextraSmall,
+// fontWeight: fontWeightmediumextra
+// ),
+// ),
+// ),
+// ],
+// ),
+// ),
+// ],
+// ),
+// ),
+// ),
+// ),
+// ),
+// Padding(
+// padding:  const EdgeInsets.only(right:20),
+// child: Image.asset(
+// Hostelers,
+// height: 150,
+// width: 150,
+// fit: BoxFit.cover,
+// ),
+// ),
+// Padding(
+// padding: const EdgeInsets.only(left: 10,),
+// child: SizedBox(
+// width: 250,
+// child: Image.asset(
+// Groupimg,
+// height: 180,
+// width: 200,
+// ),
+// ),
+// ),
+//
+// ],
+// ),

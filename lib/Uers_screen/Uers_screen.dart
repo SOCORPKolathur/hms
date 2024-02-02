@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hms/Model/LanguageModel.dart';
 import 'package:intl/intl.dart';
+import 'package:number_paginator/number_paginator.dart';
 import '../Const_File.dart';
 import '../Model/State.dart' as StatusModel;
 
@@ -46,6 +47,8 @@ class _Uers_screenState extends State<Uers_screen> {
 
   int BatchYearValid=0;
   int billcount = 0;
+  int pagecount = 0;
+  int temp = 0;
 
   List filterDataList = [
     'Filter by Date',
@@ -284,10 +287,12 @@ class _Uers_screenState extends State<Uers_screen> {
     'Zambia',
     'Zimbabwe',
   ];
+  List<String> roomList = [];
+  List<String> buildingList = [];
   List<String> MaritalStatusList = ['Marital Status', 'Yes', 'No'];
-  List<String> WorkingEmpList = [ 'No', 'Yes', "Own Business"];
+  List<String> WorkingEmpList = [ 'No', 'Yes', "Own Business","Students","College"];
   List<String> _cities = ["Select City"];
-
+  List <DocumentSnapshot>documentList = [];
 
   bool Loading = false;
   bool Useradd = false;
@@ -298,6 +303,8 @@ class _Uers_screenState extends State<Uers_screen> {
   bool dropdownValidator = false;
   bool dropdownValidator2 = false;
   bool dropdownValidator3 = false;
+  bool dropdownValidatorroom = false;
+  bool dropdownValidatorbuilding = false;
 
   /// controllers
   TextEditingController firstNamecon = TextEditingController();
@@ -323,6 +330,8 @@ class _Uers_screenState extends State<Uers_screen> {
   TextEditingController anniversaryDatecon = TextEditingController();
   TextEditingController no_of_childreancon = TextEditingController();
   TextEditingController alumniEmployedController = TextEditingController(text: "No");
+  TextEditingController roomcon = TextEditingController(text: "Select Room");
+  TextEditingController buildingcon = TextEditingController(text: "Select Building");
 
   /// add type controller
   TextEditingController nameController=TextEditingController();
@@ -330,6 +339,60 @@ class _Uers_screenState extends State<Uers_screen> {
   /// serach Controller
 
   TextEditingController searchController=TextEditingController();
+
+
+
+
+
+  @override
+  void initState() {
+    getFirstinListofUserData();
+    roomsandBuildingdata();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  getFirstinListofUserData()async{
+
+    var document=await FirebaseFirestore.instance.collection("dataType").orderBy("timestamp").get();
+
+    List setUserdat=[];
+    for(int i=0;i<document.docs.length;i++){
+      setUserdat.add(document.docs[i]['name']);
+    }
+    setState(() {
+      SelectedButton= setUserdat.first.toString();
+      seletedColor=0;
+    });
+
+  }
+
+  roomsandBuildingdata()async {
+    print("enterdddddddddddddddddddddddddddddddddddddd");
+    setState(() {
+      buildingList.clear();
+      roomList.clear();
+    });
+    setState(() {
+      buildingList.add("Select Building");
+      roomList.add("Select Room");
+    });
+    var Roomdocument=await FirebaseFirestore.instance.collection("Rooms").orderBy("timestamp").get();
+    var Buildingdocument=await FirebaseFirestore.instance.collection("Building").orderBy("timestamp").get();
+    for(int j=0;j<Roomdocument.docs.length;j++) {
+      if (Roomdocument.docs[j]['available'] == true) {
+        setState(() {
+          roomList.add(Roomdocument.docs[j]['name'].toString());
+        });
+      }
+    }
+    for (int k = 0; k < Buildingdocument.docs.length; k++) {
+      setState(() {
+        buildingList.add(Buildingdocument.docs[k]['name'].toString());
+      });
+    }
+    print("Enddddddddddddddddddddddddddddd");
+  }
 
 
   @override
@@ -2052,8 +2115,7 @@ class _Uers_screenState extends State<Uers_screen> {
                                  ),
                                ],
                              ) :
-                             alumniEmployedController.text ==
-                                 "Own Business" ?
+                             alumniEmployedController.text == "Own Business" ?
                              Row(
                                children: [
        
@@ -2149,6 +2211,286 @@ class _Uers_screenState extends State<Uers_screen> {
                                  ),
                                ],
                              ) :
+                             alumniEmployedController.text == "Students" ?
+                             Row(
+                               children: [
+                                 SizedBox(
+                                   height: height / 9.369,
+                                   child: Column(
+                                     crossAxisAlignment:
+                                     CrossAxisAlignment.start,
+                                     children: [
+                                       KText(
+                                           text: 'Class',
+                                           style: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor)
+                                       ),
+                                       SizedBox(height: height / 123.1666),
+                                       Container(
+                                           height: height / 15.114,
+                                           width: width / 4.6545,
+                                           decoration: BoxDecoration(
+                                               color: const Color(
+                                                   0xffDDDEEE),
+                                               borderRadius:
+                                               BorderRadius
+                                                   .circular(
+                                                   3)),
+                                           child: TextFormField(
+                                             controller:
+                                             occupationcon,
+                                             inputFormatters: [
+                                               FilteringTextInputFormatter
+                                                   .allow(RegExp(
+                                                   "[a-zA-Z ]")),
+                                             ],
+                                             decoration:
+                                             const InputDecoration(
+                                               border: InputBorder
+                                                   .none,
+                                               contentPadding:
+                                               EdgeInsets.only(
+                                                   bottom: 10,
+                                                   top: 2,
+                                                   left: 10),
+                                             ),
+                                             // validator: (value) => value!.isEmpty ? 'Field is required' : null,
+                                           ))
+                                     ],
+                                   ),
+                                 ),
+                                 SizedBox(width: width / 38.4),
+                                 SizedBox(
+                                   height: height / 9.369,
+                                   child: Column(
+                                     crossAxisAlignment:
+                                     CrossAxisAlignment.start,
+                                     children: [
+                                       KText(
+                                           text: 'School Name',
+                                           style: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor)
+                                       ),
+                                       SizedBox(height: height / 123.1666),
+                                       Container(
+                                           height: height / 15.114,
+                                           width: width / 4.6545,
+                                           decoration: BoxDecoration(
+                                               color: const Color(
+                                                   0xffDDDEEE),
+                                               borderRadius:
+                                               BorderRadius
+                                                   .circular(
+                                                   3)),
+                                           child: TextFormField(
+                                             controller:
+                                             designationcon,
+                                             inputFormatters: [
+                                               FilteringTextInputFormatter
+                                                   .allow(RegExp(
+                                                   "[a-zA-Z ]")),
+                                             ],
+                                             decoration:
+                                             const InputDecoration(
+                                               border: InputBorder
+                                                   .none,
+                                               contentPadding:
+                                               EdgeInsets.only(
+                                                   bottom: 10,
+                                                   top: 2,
+                                                   left: 10),
+                                             ),
+                                             //validator: (value) => value!.isEmpty ? 'Field is required' : null,
+                                           ))
+                                     ],
+                                   ),
+                                 ),
+                                 SizedBox(width: width / 38.4),
+                                 SizedBox(
+                                   height: height / 9.369,
+                                   child: Column(
+                                     crossAxisAlignment:
+                                     CrossAxisAlignment.start,
+                                     children: [
+                                       KText(
+                                           text:
+                                           "School Location",
+                                           style: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor)
+                                       ),
+                                       SizedBox(height: height / 123.1666),
+                                       Container(
+                                           height: height / 15.114,
+                                           width: width / 4.6545,
+                                           decoration: BoxDecoration(
+                                               color: const Color(
+                                                   0xffDDDEEE),
+                                               borderRadius:
+                                               BorderRadius
+                                                   .circular(
+                                                   3)),
+                                           child: TextFormField(
+                                             controller:
+                                             company_concerncon,
+                                             inputFormatters: [
+                                               FilteringTextInputFormatter
+                                                   .allow(RegExp(
+                                                   "[a-zA-Z ]")),
+                                             ],
+                                             decoration:
+                                             const InputDecoration(
+                                               border: InputBorder
+                                                   .none,
+                                               contentPadding:
+                                               EdgeInsets.only(
+                                                   bottom: 10,
+                                                   top: 2,
+                                                   left: 10),
+                                             ),
+                                             // validator: (value) => value!.isEmpty ? 'Field is required' : null,
+                                           ))
+                                     ],
+                                   ),
+                                 ),
+                               ],
+                             )  :
+                             alumniEmployedController.text == "College" ?
+                             Row(
+                               children: [
+                                 SizedBox(
+                                   height: height / 9.369,
+                                   child: Column(
+                                     crossAxisAlignment:
+                                     CrossAxisAlignment.start,
+                                     children: [
+                                       KText(
+                                           text: 'UG/PG',
+                                           style: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor)
+                                       ),
+                                       SizedBox(height: height / 123.1666),
+                                       Container(
+                                           height: height / 15.114,
+                                           width: width / 4.6545,
+                                           decoration: BoxDecoration(
+                                               color: const Color(
+                                                   0xffDDDEEE),
+                                               borderRadius:
+                                               BorderRadius
+                                                   .circular(
+                                                   3)),
+                                           child: TextFormField(
+                                             controller:
+                                             occupationcon,
+                                             inputFormatters: [
+                                               FilteringTextInputFormatter
+                                                   .allow(RegExp(
+                                                   "[a-zA-Z ]")),
+                                             ],
+                                             decoration:
+                                             const InputDecoration(
+                                               border: InputBorder
+                                                   .none,
+                                               contentPadding:
+                                               EdgeInsets.only(
+                                                   bottom: 10,
+                                                   top: 2,
+                                                   left: 10),
+                                             ),
+                                             // validator: (value) => value!.isEmpty ? 'Field is required' : null,
+                                           ))
+                                     ],
+                                   ),
+                                 ),
+                                 SizedBox(width: width / 38.4),
+                                 SizedBox(
+                                   height: height / 9.369,
+                                   child: Column(
+                                     crossAxisAlignment:
+                                     CrossAxisAlignment.start,
+                                     children: [
+                                       KText(
+                                           text: 'Department',
+                                           style: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor)
+                                       ),
+                                       SizedBox(height: height / 123.1666),
+                                       Container(
+                                           height: height / 15.114,
+                                           width: width / 4.6545,
+                                           decoration: BoxDecoration(
+                                               color: const Color(
+                                                   0xffDDDEEE),
+                                               borderRadius:
+                                               BorderRadius
+                                                   .circular(
+                                                   3)),
+                                           child: TextFormField(
+                                             controller:
+                                             designationcon,
+                                             inputFormatters: [
+                                               FilteringTextInputFormatter
+                                                   .allow(RegExp(
+                                                   "[a-zA-Z ]")),
+                                             ],
+                                             decoration:
+                                             const InputDecoration(
+                                               border: InputBorder
+                                                   .none,
+                                               contentPadding:
+                                               EdgeInsets.only(
+                                                   bottom: 10,
+                                                   top: 2,
+                                                   left: 10),
+                                             ),
+                                             //validator: (value) => value!.isEmpty ? 'Field is required' : null,
+                                           ))
+                                     ],
+                                   ),
+                                 ),
+                                 SizedBox(width: width / 38.4),
+                                 SizedBox(
+                                   height: height / 9.369,
+                                   child: Column(
+                                     crossAxisAlignment:
+                                     CrossAxisAlignment.start,
+                                     children: [
+                                       KText(
+                                           text:
+                                           "College Name",
+                                           style: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor)
+                                       ),
+                                       SizedBox(height: height / 123.1666),
+                                       Container(
+                                           height: height / 15.114,
+                                           width: width / 4.6545,
+                                           decoration: BoxDecoration(
+                                               color: const Color(
+                                                   0xffDDDEEE),
+                                               borderRadius:
+                                               BorderRadius
+                                                   .circular(
+                                                   3)),
+                                           child: TextFormField(
+                                             controller:
+                                             company_concerncon,
+                                             inputFormatters: [
+                                               FilteringTextInputFormatter
+                                                   .allow(RegExp(
+                                                   "[a-zA-Z ]")),
+                                             ],
+                                             decoration:
+                                             const InputDecoration(
+                                               border: InputBorder
+                                                   .none,
+                                               contentPadding:
+                                               EdgeInsets.only(
+                                                   bottom: 10,
+                                                   top: 2,
+                                                   left: 10),
+                                             ),
+                                             // validator: (value) => value!.isEmpty ? 'Field is required' : null,
+                                           ))
+                                     ],
+                                   ),
+                                 ),
+                               ],
+                             )  :
                              const SizedBox(),
        
                              ///Material Status
@@ -2444,6 +2786,200 @@ class _Uers_screenState extends State<Uers_screen> {
                                      : const SizedBox(),
                                ],
                              ),
+                             SizedBox(height: height / 24.633),
+
+                             /// Rooms Details
+                             Row(
+                               children: [
+                                 SizedBox(width: width / 307.2),
+                                 KText(
+                                     text: 'Rooms Details',
+                                     style: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor)
+                                 ),
+                               ],
+                             ),
+                             Padding(
+                               padding: const EdgeInsets.only(
+                                   left: 4,
+                                   right: 4,
+                                   top: 4,
+                                   bottom: 4),
+                               child: Container(
+                                 height: 1,
+                                 width: width / 1.4422,
+                                 color: Colors.grey.shade300,
+                               ),
+                             ),
+                             SizedBox(height: height / 36.95),
+                             Padding(
+                               padding:  EdgeInsets.only(left: width/273.2),
+                               child: Row(
+                                 children: [
+
+                                   ///Rooms Dropdown
+                                   SizedBox(
+                                     height: height / 7.4,
+                                     child: Column(
+                                       crossAxisAlignment:
+                                       CrossAxisAlignment
+                                           .start,
+                                       children: [
+                                         KText(
+                                             text: 'Rooms *',
+                                             style: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor)
+                                         ),
+                                         SizedBox(
+                                             height: height / 123.1666),
+                                         Container(
+                                           height: height / 15.114,
+                                           width: width / 6.4,
+                                           decoration: BoxDecoration(
+                                               color: const Color(
+                                                   0xffDDDEEE),
+                                               borderRadius:
+                                               BorderRadius
+                                                   .circular(
+                                                   3)),
+                                           padding:  EdgeInsets.only(
+                                               left: width/273.2),
+                                           child:
+                                           DropdownSearch <String>(
+                                             autoValidateMode: AutovalidateMode.onUserInteraction,
+                                             selectedItem: roomcon.text,
+                                             popupProps: PopupProps.menu(
+                                               showSearchBox: true,
+                                             ),
+                                             dropdownDecoratorProps: DropDownDecoratorProps(
+                                               baseStyle:textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor),
+                                               textAlignVertical: TextAlignVertical.center,
+                                               dropdownSearchDecoration: InputDecoration(
+                                                   border: InputBorder.none),
+                                             ),
+                                             items: roomList,
+                                             validator: (value) {
+                                               if (value=='Select Room') {
+                                                 setState((){
+                                                   dropdownValidatorroom=true;
+                                                 });
+                                               }
+                                               return null;
+                                             },
+                                             onChanged: (String? value) {
+                                               if (value=='Select Room') {
+                                                 setState((){
+                                                   dropdownValidatorroom=true;
+                                                 });
+                                               }else{
+
+                                                 setState(() {
+                                                   roomcon.text =
+                                                   value!;
+                                                   dropdownValidatorroom=false;
+                                                 });
+                                               }
+                                             },
+                                           ),
+
+                                         ),
+                                         dropdownValidatorroom == true && roomcon.text ==
+                                             "Select Room"
+                                             ? Text("Field is required",
+                                             style: TextStyle(
+                                                 color: Colors.red,
+                                                 fontSize: 13))
+                                             : const SizedBox()
+                                       ],
+                                     ),
+                                   ),
+                                   SizedBox(width: width / 46.5454),
+
+                                   ///Buildings
+                                   SizedBox(
+                                     height: height / 7.4,
+                                     child: Column(
+                                       crossAxisAlignment:
+                                       CrossAxisAlignment
+                                           .start,
+                                       children: [
+                                         KText(
+                                             text: 'Building *',
+                                             style: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor)
+                                         ),
+                                         SizedBox(
+                                             height: height / 123.1666),
+                                         Container(
+                                           height: height / 15.114,
+                                           width: width / 6.4,
+                                           decoration: BoxDecoration(
+                                               color: const Color(
+                                                   0xffDDDEEE),
+                                               borderRadius:
+                                               BorderRadius
+                                                   .circular(
+                                                   3)),
+                                           padding:  EdgeInsets.only(
+                                               left: width/273.2),
+                                           child:
+                                           DropdownSearch <String>(
+                                             autoValidateMode: AutovalidateMode.onUserInteraction,
+                                             selectedItem: buildingcon.text,
+                                             popupProps: PopupProps.menu(
+                                               showSearchBox: true,
+                                             ),
+
+                                             dropdownDecoratorProps: DropDownDecoratorProps(
+                                               baseStyle: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: HeadingTextColor),
+                                               textAlignVertical: TextAlignVertical.center,
+                                               dropdownSearchDecoration: InputDecoration(
+                                                   border: InputBorder.none),
+                                             ),
+                                             items: buildingList,
+                                             validator: (value) {
+                                               if (value ==
+                                                   'Select Building') {
+                                                 setState(() {
+                                                   dropdownValidatorbuilding =
+                                                   true;
+                                                 });
+                                               }
+                                               return null;
+                                             },
+                                             onChanged: (String?
+                                             value) {
+                                               if (value == 'Select Building') {
+                                                 setState(() {
+                                                   dropdownValidatorbuilding =
+                                                   true;
+                                                 });
+                                               }
+                                               else {
+                                                 setState(() {
+                                                   buildingcon.text =
+                                                   value!;
+                                                   dropdownValidatorbuilding =
+                                                   false;
+                                                 });
+                                               }
+                                             },
+                                           ),
+
+                                         ),
+                                         dropdownValidatorbuilding == true &&
+                                             buildingcon.text == "Select Building"
+                                             ? Text("Field is required",
+                                             style: TextStyle(
+                                                 color: Colors.red,
+                                                 fontSize: 13))
+                                             : const SizedBox()
+                                       ],
+                                     ),
+                                   ),
+                                   SizedBox(width: width / 43.8857),
+
+                                 ],
+                               ),
+                             ),
+                             
                              SizedBox(height: height / 24.633),
        
                              ///buttons Save reset and back
@@ -2758,12 +3294,12 @@ class _Uers_screenState extends State<Uers_screen> {
                     },
                     child: Container(
                         height: 40,
-                        width: 100,
+                        width: 120,
                         decoration: BoxDecoration(
                             color: ContainerColor,
                             borderRadius: BorderRadius.circular(5)),
                         child: Center(child:
-                        Text(SelectedButton.toString(),style:textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: TextColorwhite),))
+                        Text("Add ${SelectedButton.toString()}",style:textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor: TextColorwhite),))
 
                     ),
                   ),
@@ -2816,7 +3352,14 @@ class _Uers_screenState extends State<Uers_screen> {
                 height: 500,
                 width: 1300,
                 child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection("HostelUsers").orderBy("timestamp").snapshots(),
+                  stream: documentList.isNotEmpty ?
+                  FirebaseFirestore.instance.collection("HostelUsers")
+                      .orderBy("timestamp")
+                      .startAfterDocument(
+                      documentList[documentList.length - 1]).limit(2)
+                      .snapshots():
+
+                  FirebaseFirestore.instance.collection("HostelUsers").orderBy("timestamp").snapshots(),
                   builder: (context, snapshot) {
                     if(snapshot.hasData==null){
                       return const Center(child: CircularProgressIndicator(),);
@@ -2824,200 +3367,229 @@ class _Uers_screenState extends State<Uers_screen> {
                     if(!snapshot.hasData){
                       return const Center(child: CircularProgressIndicator(),);
                     }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.docs.length,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          physics: const ScrollPhysics(),
+                          itemBuilder: (context, index) {
 
-                        var HostellerData=snapshot.data!.docs[index];
+                            var HostellerData=snapshot.data!.docs[index];
 
-                        if(searchController.text!=""){
+                            if(HostellerData['UserType']==SelectedButton){
+                              if(searchController.text!=""){
 
-                          if(HostellerData['Name'].toString().toLowerCase().contains(searchController.text.toString().toLowerCase())){
-                            return
-                              SizedBox(
-                                height: 50,
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                          height: 40,
-                                          width: 35,
-                                          decoration: BoxDecoration(
-                                              color: Colors.grey.withOpacity(0.6),
-                                              borderRadius: BorderRadius.circular(5),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(HostellerData['UserImg'].toString())
-                                              )
-                                          ),
-                                          child:
-                                          HostellerData['UserImg'].toString()==""?
-                                          Center(
-                                            child: Icon(Icons.person,),
-                                          ):Text("")
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 30),
-                                      child: Container(
-                                        width: 300,
-                                        height: 50,
-                                        child: Text(HostellerData['Name'].toString(), style:
-                                        textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
-                                        alignment: Alignment.centerLeft,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 300,
+                                if(HostellerData['Name'].toString().toLowerCase().contains(searchController.text.toString().toLowerCase())){
+                                  return
+                                    SizedBox(
                                       height: 50,
-                                      alignment: Alignment.centerLeft,
                                       child: Row(
                                         children: [
-                                          Text("Last Check out at ", style:
-                                          textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
-                                          Text(HostellerData['lastCheckin'].toString(), style:
-                                          textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: ListedContainerColor)),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                                height: 40,
+                                                width: 35,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey.withOpacity(0.6),
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(HostellerData['UserImg'].toString())
+                                                    )
+                                                ),
+                                                child:
+                                                HostellerData['UserImg'].toString()==""?
+                                                Center(
+                                                  child: Icon(Icons.person,),
+                                                ):Text("")
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 30),
+                                            child: Container(
+                                              width: 300,
+                                              height: 50,
+                                              child: Text("${HostellerData['Name'].toString()}${HostellerData['lastName'].toString()}", style:
+                                              textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
+                                              alignment: Alignment.centerLeft,
+                                            ),
+                                          ),
+                                          Container(
+                                            width: 300,
+                                            height: 50,
+                                            alignment: Alignment.centerLeft,
+                                            child: Row(
+                                              children: [
+                                                Text("Last Check out at ", style:
+                                                textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
+                                                Text(HostellerData['lastCheckin'].toString(), style:
+                                                textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: ListedContainerColor)),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            height: 50,
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(HostellerData['time'].toString(), style:
+                                            textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
+                                          ),
+                                          SizedBox(
+                                            width: 200,
+                                            height: 50,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(right: 100,top: 5,bottom: 5),
+                                              child: InkWell(
+                                                onTap:(){
+                                                  roomStatus(
+                                                      ActiveStatus: HostellerData['Active'],
+                                                      DocumentId: HostellerData.id
+                                                  );
+                                                },
+                                                child: Container(
+                                                  width: 80,
+                                                  height: 50,
+                                                  decoration:BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5),
+                                                      color:HostellerData['Active']==true?InRoomContainerColor:
+                                                      OutRoomContainerColor
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                        HostellerData['Active']==true?
+                                                        "In Room":"Out Room", style:
+                                                    textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor:
+                                                    HostellerData['Active']==true?
+                                                    InRoomColor:OutRoomColor)),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
                                         ],
                                       ),
-                                    ),
-                                    Container(
-                                      width: 200,
-                                      height: 50,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(HostellerData['time'].toString(), style:
-                                      textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
-                                    ),
-                                    SizedBox(
-                                      width: 200,
-                                      height: 50,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(right: 100,top: 5,bottom: 5),
-                                        child: InkWell(
-                                          onTap:(){
-                                            roomStatus(
-                                                ActiveStatus: HostellerData['Active'],
-                                                DocumentId: HostellerData.id
-                                            );
-                                          },
-                                          child: Container(
-                                            width: 80,
-                                            height: 50,
-                                            decoration:BoxDecoration(
-                                                borderRadius: BorderRadius.circular(5),
-                                                color:
-                                                OutRoomContainerColor
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                  HostellerData['Active']==true?
-                                                  "In Room":"Out Room", style:
-                                              textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: OutRoomrColor)),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-
-                                  ],
-                                ),
-                              );
-                          }
-                        }
-                        else{
-                          return
-                            SizedBox(
-                              height: 50,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                        height: 40,
-                                        width: 35,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey.withOpacity(0.6),
-                                            borderRadius: BorderRadius.circular(5),
-                                            image: DecorationImage(
-                                                image: NetworkImage(HostellerData['UserImg'].toString())
-                                            )
-                                        ),
-                                        child:
-                                        HostellerData['UserImg'].toString()==""?
-                                        Center(
-                                          child: Icon(Icons.person,),
-                                        ):Text("")
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 30),
-                                    child: Container(
-                                      width: 300,
-                                      height: 50,
-                                      child: Text(HostellerData['Name'].toString(), style:
-                                      textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
-                                      alignment: Alignment.centerLeft,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 300,
+                                    );
+                                }
+                              }
+                              else{
+                                return
+                                  SizedBox(
                                     height: 50,
-                                    alignment: Alignment.centerLeft,
                                     child: Row(
                                       children: [
-                                        Text("Last Check out at ", style:
-                                        textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
-                                        Text(HostellerData['lastCheckin'].toString(), style:
-                                        textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: ListedContainerColor)),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 200,
-                                    height: 50,
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(HostellerData['time'].toString(), style:
-                                    textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
-                                  ),
-                                  SizedBox(
-                                    width: 200,
-                                    height: 50,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 100,top: 5,bottom: 5),
-                                      child: InkWell(
-                                        onTap:(){
-                                          roomStatus(
-                                            ActiveStatus: HostellerData['Active'],
-                                            DocumentId: HostellerData.id
-                                          );
-                                        },
-                                        child: Container(
-                                          width: 80,
-                                          height: 50,
-                                          decoration:BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color:OutRoomContainerColor
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                                HostellerData['Active']==true?
-                                                "In Room":"Out Room", style:
-                                            textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: OutRoomrColor)),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                              height: 40,
+                                              width: 35,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey.withOpacity(0.6),
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(HostellerData['UserImg'].toString())
+                                                  )
+                                              ),
+                                              child:
+                                              HostellerData['UserImg'].toString()==""?
+                                              Center(
+                                                child: Icon(Icons.person,),
+                                              ):Text("")
                                           ),
                                         ),
-                                      ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 30),
+                                          child: Container(
+                                            width: 300,
+                                            height: 50,
+                                            child: Text("${HostellerData['Name'].toString()}${HostellerData['lastName'].toString()}", style:
+                                            textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
+                                            alignment: Alignment.centerLeft,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 300,
+                                          height: 50,
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: [
+                                              Text("Last Check out at ", style:
+                                              textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
+                                              Text(HostellerData['lastCheckin'].toString(), style:
+                                              textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: ListedContainerColor)),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 200,
+                                          height: 50,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(HostellerData['time'].toString(), style:
+                                          textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeSmall,TextColor: UsersTextColor)),
+                                        ),
+                                        SizedBox(
+                                          width: 200,
+                                          height: 50,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(right: 100,top: 5,bottom: 5),
+                                            child: InkWell(
+                                              onTap:(){
+                                                roomStatus(
+                                                    ActiveStatus: HostellerData['Active'],
+                                                    DocumentId: HostellerData.id
+                                                );
+                                              },
+                                              child: Container(
+                                                width: 80,
+                                                height: 50,
+                                                decoration:BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    color:HostellerData['Active']==true?InRoomContainerColor:
+                                                    OutRoomContainerColor
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                      HostellerData['Active']==true?
+                                                      "In Room":"Out Room", style:
+                                                  textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeSmall,TextColor:
+                                                  HostellerData['Active']==true?
+                                                  InRoomColor:OutRoomColor)),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+
+                                      ],
                                     ),
-                                  ),
+                                  );
+                              }
+                            }
 
-                                ],
-                              ),
-                            );
-                        }
-                        return const SizedBox();
+                            return const SizedBox();
 
 
-                      },);
+                          },),
+                        /*SizedBox(
+                          width:width/1.7075,
+                          child: NumberPaginator(
+                            config: NumberPaginatorUIConfig(
+                              buttonSelectedBackgroundColor: HeadingTextColor,
+                              buttonSelectedForegroundColor: Colors
+                                  .white,
+                            ),
+                            numberPages: pagecount,
+                            onPageChange: (int index) {
+                              documentList.addAll(snapshot.data!.docs);
+                              setState(() {
+                                temp = index + 1;
+                              });
+                            },
+                          ),
+                        )*/
+                      ],
+                    );
                   },
                 )
               ),
@@ -3305,6 +3877,8 @@ class _Uers_screenState extends State<Uers_screen> {
         "spouseName": spouseNamecon.text,
         "anniversaryDate": anniversaryDatecon.text,
         "childreancount": no_of_childreancon.text,
+        "room":roomcon.text,
+        "building":buildingcon.text,
         "date": "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
         "timestamp": DateTime.now().millisecondsSinceEpoch,
         "userDocId": userid,
@@ -3350,6 +3924,8 @@ class _Uers_screenState extends State<Uers_screen> {
         "spouseName": spouseNamecon.text,
         "anniversaryDate": anniversaryDatecon.text,
         "childreancount": no_of_childreancon.text,
+        "room":roomcon.text,
+        "building":buildingcon.text,
         "date": "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
         "timestamp": DateTime.now().millisecondsSinceEpoch,
         "userDocId": userid,
@@ -3494,6 +4070,8 @@ class _Uers_screenState extends State<Uers_screen> {
       spouseNamecon.clear();
       anniversaryDatecon.clear();
       no_of_childreancon.clear();
+      roomcon.text="Select Room";
+      buildingcon.text="Select Building";
       Uploaddocument = null;
       imgUrl = "";
       dropdownValidator2 = false;

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
+import '../Building_screen/Building_screen.dart';
 import '../Complaint_Screen/Complaint_Screen.dart';
 import '../Const_File.dart';
 import '../Dashboard_Screen/DashBoard_Screen.dart';
+import '../Message_Screen/Message_screen.dart';
+import '../Rooms_Screen/Rooms_Screen.dart';
 import '../Uers_screen/Uers_screen.dart';
 
 
@@ -122,10 +125,10 @@ class ExampleSidebarX extends StatelessWidget {
               items: const [
 
                 SidebarXItem(
-                  icon: Icons.dashboard,
+                  icon: Icons.home,
                   label: 'Dash Board',),
                 SidebarXItem(
-                  icon: Icons.people,
+                  icon: Icons.dashboard,
                   label: 'Hostel Lists',
                 ),
                 SidebarXItem(
@@ -137,6 +140,14 @@ class ExampleSidebarX extends StatelessWidget {
                   label: 'Message',
                 ),
                 SidebarXItem(
+                  icon: Icons.room,
+                  label: 'Rooms',
+                ),
+                SidebarXItem(
+                  icon: Icons.build_outlined,
+                  label: 'Buildings',
+                ),
+                SidebarXItem(
                   icon: Icons.auto_graph_outlined,
                   label: 'Graph',
                 ),
@@ -145,7 +156,7 @@ class ExampleSidebarX extends StatelessWidget {
                   label: 'Abouts',
                 ),
                 SidebarXItem(
-                  icon: Icons.settings,
+                  icon: Icons.settings_outlined,
                   label: 'Settings',
                 ),
 
@@ -182,11 +193,11 @@ class _ScreensExample extends StatelessWidget {
           case 2:
             return const Complaint_Screen();
           case 3:
-            return const SizedBox();
+            return const Message_Screen();
           case 4:
-            return const SizedBox();
+            return const Rooms_Screen();
           case 5:
-            return const SizedBox();
+            return const Building_screen();
           case 6:
             return const SizedBox();
           case 7:

@@ -7,6 +7,7 @@ import 'package:flutter_calendar_carousel/classes/multiple_marked_dates.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart' show CalendarCarousel;
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hms/Const_File.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_clean_calendar/controllers/clean_calendar_controller.dart';
 
@@ -81,19 +82,17 @@ class _CalenderPageState extends State<CalenderPage> {
         this.setState(() => _currentDate = date);
         events.forEach((event) => print(event.title));
       },
-      weekendTextStyle: TextStyle(
-        color: Colors.black,
-      ),
-      thisMonthDayBorderColor: Colors.grey,
+      weekendTextStyle: textStyle(fontWeight: fontWeightlight,TextSize: TextSizeMedium,TextColor: Colors.black)
+      ,thisMonthDayBorderColor: Colors.grey,
 //          weekDays: null, /// for pass null when you do not want to render weekDays
       headerText: 'Custom Header',
       weekFormat: true,
       markedDatesMap: _markedDateMap,
       height: height/3.78,
       selectedDateTime: _currentDate2,
-      daysTextStyle: TextStyle(color: Colors.black),
-      inactiveWeekendTextStyle: TextStyle(color: Colors.black),
-      weekdayTextStyle: TextStyle(color: Colors.black),
+      daysTextStyle: textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeMedium,TextColor: Colors.black),
+      inactiveWeekendTextStyle: textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeMedium,TextColor: Colors.black),
+      weekdayTextStyle: textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeMedium,TextColor: Colors.black),
       showIconBehindDayText: true,
 //          daysHaveCircularBorder: false, /// null for not rendering any border, true for circular border, false for rectangular border
       customGridViewPhysics: NeverScrollableScrollPhysics(),
@@ -103,7 +102,7 @@ class _CalenderPageState extends State<CalenderPage> {
       maxSelectedDate: _currentDate.add(Duration(days: 360)),
       todayButtonColor: Colors.transparent,
       todayBorderColor: Colors.transparent,
-      markedDateCustomTextStyle: TextStyle(fontSize: width/24.4,color: Colors.white),
+      markedDateCustomTextStyle: textStyle(fontWeight: fontWeightmedium,TextSize: TextSizeMedium,TextColor: Colors.white),
       markedDateMoreShowTotal:
       true, // null for not showing hidden events indicator
 //          markedDateIconMargin: 9,
@@ -122,17 +121,14 @@ class _CalenderPageState extends State<CalenderPage> {
 
       showOnlyCurrentMonthDate: false,
       markedDateIconMargin: 2,
-      daysTextStyle:
-      GoogleFonts.poppins(fontWeight: FontWeight.w700,color: Colors.black),
-      inactiveWeekendTextStyle: GoogleFonts.poppins(fontWeight: FontWeight.w700,color: Colors.black),
-      weekdayTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.w700,color: Colors.black),
-      weekendTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.w700,color: Colors.black),
-      headerTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.w700,color: Colors.black),
-      nextDaysTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.w700,color: Colors.black),
-      markedDateMoreCustomTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.w700,color: Colors.black),
-      markedDateCustomTextStyle:  GoogleFonts.poppins(
-          fontWeight: FontWeight.w700,
-          color:  Colors.white),
+      daysTextStyle: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeMedium,TextColor: Colors.black),
+      inactiveWeekendTextStyle: textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeMedium,TextColor: Colors.black),
+      weekdayTextStyle:  textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeMedium,TextColor: Colors.black),
+      weekendTextStyle:  textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeMedium,TextColor: Colors.black),
+      headerTextStyle:  textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeMedium,TextColor: Colors.black),
+      nextDaysTextStyle:  textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeMedium,TextColor: Colors.black),
+      markedDateMoreCustomTextStyle:  textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeMedium,TextColor: Colors.black),
+      markedDateCustomTextStyle:  textStyle(fontWeight: fontWeightmediumextra,TextSize: TextSizeMedium,TextColor: Colors.white),
       thisMonthDayBorderColor: Colors.grey,
       weekFormat: false,
 //      firstDayOfWeek: 4,
@@ -151,28 +147,29 @@ class _CalenderPageState extends State<CalenderPage> {
           side: BorderSide(color: Colors.yellow)),
 
       showHeader: false,
-      todayTextStyle: GoogleFonts.poppins(
-          color: presentabsentdaylist.contains(_currentDate)?Colors.white:allabsentdaylist.contains(_currentDate)?Colors.white:
+      todayTextStyle: textStyle(
+        TextColor:
+           presentabsentdaylist.contains(_currentDate)?Colors.white:allabsentdaylist.contains(_currentDate)?Colors.white:
           AllHolidays_List.contains(_currentDate)?Colors.white:Colors.blue,
-          fontWeight: FontWeight.w700
+          fontWeight: fontWeightmediumextra
       ),
       todayButtonColor: Colors.indigoAccent,
-      selectedDayTextStyle: GoogleFonts.poppins(
-          color: presentabsentdaylist.contains(_currentDate)?Colors.white:allabsentdaylist.contains(_currentDate)?Colors.white:Colors.blue,
-          fontWeight: FontWeight.w700
+      selectedDayTextStyle: textStyle(
+          TextColor: presentabsentdaylist.contains(_currentDate)?Colors.white:allabsentdaylist.contains(_currentDate)?Colors.white:Colors.blue,
+          fontWeight:fontWeightmediumextra
       ),
       showWeekDays: true,
       minSelectedDate: _currentDate.subtract(Duration(days: 360)),
       maxSelectedDate: _currentDate.add(Duration(days: 360)),
-      prevDaysTextStyle:  GoogleFonts.poppins(
-        fontSize: 10,
-        fontWeight: FontWeight.w700,
-        color: Colors.pinkAccent,
+      prevDaysTextStyle:  textStyle(
+        TextSize: 10,
+        fontWeight: fontWeightmediumextra,
+        TextColor: Colors.pinkAccent,
       ),
-      inactiveDaysTextStyle:  GoogleFonts.poppins(
+      inactiveDaysTextStyle:  textStyle(
         fontWeight: FontWeight.w700,
-        color: Colors.tealAccent,
-        fontSize: 10,
+        TextColor: Colors.tealAccent,
+        TextSize: 10,
       ),
 
       onCalendarChanged: (DateTime date) {
@@ -208,13 +205,13 @@ class _CalenderPageState extends State<CalenderPage> {
                     Expanded(
                         child: Text(
                             _currentMonth.toUpperCase(),
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w700,
-                              fontSize: 15)
+                            style: textStyle(fontWeight: fontWeightmediumextra,
+                              TextSize: 15)
 
                         )),
 
                     TextButton(
-                      child: Text('PREV',style: GoogleFonts.poppins(fontWeight: FontWeight.w700)),
+                      child: Text('PREV',style: textStyle(fontWeight:fontWeightmediumextra )),
                       onPressed: () {
                         setState(() {
                           _targetDateTime = DateTime(_targetDateTime.year, _targetDateTime.month - 1);
@@ -225,7 +222,7 @@ class _CalenderPageState extends State<CalenderPage> {
                       },
                     ),
                     TextButton(
-                      child: Text('NEXT',style: GoogleFonts.poppins(fontWeight: FontWeight.w700),),
+                      child: Text('NEXT',style: textStyle(fontWeight: fontWeightmediumextra),),
                       onPressed: () {
                         setState(() {
                           _targetDateTime = DateTime(
